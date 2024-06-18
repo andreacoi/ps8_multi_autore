@@ -2,6 +2,7 @@
 <?php
 
 require_once _PS_MODULE_DIR_ . 'authorsmanager/authorsmanager.php';
+require_once _PS_MODULE_DIR_ . 'authorsmanager/classes/Author.php';
 
 class AdminAuthorsController extends ModuleAdminController
 {
