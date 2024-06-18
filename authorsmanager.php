@@ -56,4 +56,39 @@ class AuthorsManager extends Module
     }
     return false;
   }
+
+  public function hookDisplayAdminProductsExtra($params)
+  {
+    $id_product = (int)$params['id_product'];
+    $authors = $this->getProductAuthors($id_product);
+    $all_authors = $this->getAllAuthors();
+
+    $this->context->smarty->assign(array(
+      'authors' => $authors,
+      'all_authors' => $all_authors,
+      'product_id' => $id_product,
+    ));
+
+    return $this->display(__FILE__, 'views/templates/admin/authors.tpl');
+  }
+
+  private function getProductAuthors($id_product)
+  {
+    $sql = new DbQuery();
+    $sql->select('a.id_author, a.first_name, a.last_name, pa.contribution_type')
+      ->from('product_author', 'pa')
+      ->leftJoin('author', 'a', 'pa.id_author = a.id_author')
+      ->where('pa.id_product = ' . (int)$id_product);
+
+    return Db::getInstance()->executeS($sql);
+  }
+
+  private function getAllAuthors()
+  {
+    $sql = new DbQuery();
+    $sql->select('a.id_author, a.first_name, a.last_name')
+      ->from('author', 'a');
+
+    return Db::getInstance()->executeS($sql);
+  }
 }
