@@ -60,15 +60,13 @@ class AuthorsManager extends Module
   public function hookDisplayAdminProductsExtra($params)
   {
     $id_product = (int)$params['id_product'];
-    $authors = Db::getInstance()->executeS(
-      '
-            SELECT pa.id_author, a.first_name, a.last_name, pa.contribution_type
-            FROM ' . _DB_PREFIX_ . 'product_author pa
-            LEFT JOIN ' . _DB_PREFIX_ . 'author a ON pa.id_author = a.id_author
-            WHERE pa.id_product = ' . (int)$id_product
-    );
+    $authors = $this->getProductAuthors($id_product);
+    $all_authors = $this->getAllAuthors();
 
-    $all_authors = Db::getInstance()->executeS('SELECT * FROM ' . _DB_PREFIX_ . 'author');
+    // Debug output
+    error_log(print_r($params, true));
+    error_log(print_r($authors, true));
+    error_log(print_r($all_authors, true));
 
     $this->context->smarty->assign([
       'authors' => $authors,
