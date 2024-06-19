@@ -9,7 +9,7 @@ class AuthorsManager extends Module
   {
     $this->name = 'authorsmanager';
     $this->tab = 'administration';
-    $this->version = '0.0.1.5-pre-alpha';
+    $this->version = '0.0.1.6pa';
     $this->author = 'Andrea Coi';
     $this->need_instance = 0;
 
