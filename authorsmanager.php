@@ -46,13 +46,13 @@ class AuthorsManager extends Module
   {
     return parent::install() &&
       $this->registerHook('displayAdminProductsExtra') &&
-      $this->registerHook('actionAdminProductsControllerSaveAfter') &&
+      $this->registerHook('actionProductSave') &&
       $this->installTab();
   }
 
   public function uninstall()
   {
-    return parent::uninstall() && $this->deleteTables() && $this->uninstallTab();
+    return parent::uninstall() && $this->uninstallTab();
   }
 
   public function hookDisplayAdminProductsExtra($params)
@@ -69,25 +69,49 @@ class AuthorsManager extends Module
     return $this->display(__FILE__, 'views/templates/admin/products/helpers/form/form.tpl');
   }
 
-  public function hookActionAdminProductsControllerSaveAfter($params)
+
+  public function hookActionProductSave($params)
   {
     $id_product = (int)$params['id_product'];
     $authors = Tools::getValue('authors', []);
     $contribution_types = Tools::getValue('contribution_types', []);
 
-    Db::getInstance()->execute('DELETE FROM ' . _DB_PREFIX_ . 'product_author WHERE id_product = ' . (int)$id_product);
+    PrestaShopLogger::addLog('Saving authors for product ID ' . $id_product, 1, null, 'Product', $id_product);
+    PrestaShopLogger::addLog('Authors: ' . print_r($authors, true), 1, null, 'Product', $id_product);
+    PrestaShopLogger::addLog('Contribution Types: ' . print_r($contribution_types, true), 1, null, 'Product', $id_product);
+
+    // Rimuoviamo la cancellazione
+    // Db::getInstance()->delete(_DB_PREFIX_.'product_author', 'id_product = ' . (int)$id_product);
 
     if (!empty($authors)) {
       foreach ($authors as $key => $id_author) {
-        Db::getInstance()->insert('product_author', [
-          'id_product' => (int)$id_product,
-          'id_author' => (int)$id_author,
-          'contribution_type' => pSQL($contribution_types[$key]),
-        ]);
+        $contribution_type = pSQL($contribution_types[$key]);
+
+        // Controlliamo se il record esiste già
+        $sql = 'SELECT * FROM ' . _DB_PREFIX_ . 'product_author 
+                    WHERE id_product = ' . (int)$id_product . ' 
+                    AND id_author = ' . (int)$id_author;
+
+        $existingRecord = Db::getInstance()->getRow($sql);
+
+        if ($existingRecord) {
+          // Se il record esiste, lo aggiorniamo
+          Db::getInstance()->update('product_author', [
+            'contribution_type' => $contribution_type,
+          ], 'id_product = ' . (int)$id_product . ' AND id_author = ' . (int)$id_author);
+        } else {
+          // Se il record non esiste, lo inseriamo
+          Db::getInstance()->insert('product_author', [
+            'id_product' => (int)$id_product,
+            'id_author' => (int)$id_author,
+            'contribution_type' => $contribution_type,
+          ]);
+        }
+
+        PrestaShopLogger::addLog('Processing author ID ' . $id_author . ' with contribution type ' . $contribution_type, 1, null, 'Product', $id_product);
       }
     }
   }
-
   protected function getProductAuthors($id_product)
   {
     if (!$id_product) {
