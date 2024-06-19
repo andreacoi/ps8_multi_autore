@@ -47,42 +47,12 @@ class AuthorsManager extends Module
     return parent::install() &&
       $this->registerHook('displayAdminProductsExtra') &&
       $this->registerHook('actionAdminProductsControllerSaveAfter') &&
-      $this->createTables() &&
       $this->installTab();
   }
 
   public function uninstall()
   {
     return parent::uninstall() && $this->deleteTables() && $this->uninstallTab();
-  }
-
-  protected function createTables()
-  {
-    $sql = "CREATE TABLE IF NOT EXISTS `" . _DB_PREFIX_ . "author` (
-            `id_author` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-            `first_name` VARCHAR(255) NOT NULL,
-            `last_name` VARCHAR(255) NOT NULL,
-            `biography` TEXT,
-            PRIMARY KEY (`id_author`)
-        ) ENGINE=" . _MYSQL_ENGINE_ . " DEFAULT CHARSET=utf8;";
-
-    $sql .= "CREATE TABLE IF NOT EXISTS `" . _DB_PREFIX_ . "product_author` (
-            `id_product` INT UNSIGNED NOT NULL,
-            `id_author` INT UNSIGNED NOT NULL,
-            `contribution_type` VARCHAR(255) NOT NULL,
-            PRIMARY KEY (`id_product`, `id_author`),
-            CONSTRAINT `fk_product_author_product` FOREIGN KEY (`id_product`) REFERENCES `" . _DB_PREFIX_ . "product` (`id_product`) ON DELETE CASCADE,
-            CONSTRAINT `fk_product_author_author` FOREIGN KEY (`id_author`) REFERENCES `" . _DB_PREFIX_ . "author` (`id_author`) ON DELETE CASCADE
-        ) ENGINE=" . _MYSQL_ENGINE_ . " DEFAULT CHARSET=utf8;";
-
-    return Db::getInstance()->execute($sql);
-  }
-
-  protected function deleteTables()
-  {
-    $sql = "DROP TABLE IF EXISTS `" . _DB_PREFIX_ . "product_author`;";
-    $sql .= "DROP TABLE IF EXISTS `" . _DB_PREFIX_ . "author`;";
-    return Db::getInstance()->execute($sql);
   }
 
   public function hookDisplayAdminProductsExtra($params)
