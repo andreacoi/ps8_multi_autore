@@ -5,7 +5,7 @@
         <select id="add-author" class="form-control">
             <option value="">{l s='Select Author' d='Modules.AuthorsManager.Admin'}</option>
             {foreach from=$all_authors item=all_author}
-                <option value="{$all_author.id_author}">{$all_author.firstname} {$all_author.lastname}</option>
+                <option value="{$all_author.id_author}">{$all_author.first_name} {$all_author.last_name}</option>
             {/foreach}
         </select>
         <button type="button" class="btn btn-primary" id="add-author-btn">{l s='Add' d='Modules.AuthorsManager.Admin'}</button>
@@ -16,7 +16,7 @@
                 <input type="hidden" name="authors[]" value="{$author.id_author}" />
                 <input type="hidden" name="contribution_types[]" value="{$author.contribution_type}" />
                 <p>
-                    <strong>{$author.firstname} {$author.lastname}</strong> - 
+                    <strong>{$author.first_name} {$author.last_name}</strong> - 
                     <select name="contribution_types[]">
                         <option value="author" {if $author.contribution_type == 'author'}selected{/if}>{l s='Author' d='Modules.AuthorsManager.Admin'}</option>
                         <option value="co-author" {if $author.contribution_type == 'co-author'}selected{/if}>{l s='Co-Author' d='Modules.AuthorsManager.Admin'}</option>
