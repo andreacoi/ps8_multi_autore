@@ -59,18 +59,21 @@ class AdminProductsController extends AdminProductsControllerCore
   protected function saveProductAuthors()
   {
     $id_product = (int)Tools::getValue('id_product');
-    Db::getInstance()->execute('DELETE FROM ' . _DB_PREFIX_ . 'product_author WHERE id_product = ' . (int)$id_product);
+    Db::getInstance()->delete('product_author', 'id_product = ' . $id_product);
 
-    $authors = Tools::getValue('authors', []);
-    $contribution_types = Tools::getValue('contribution_types', []);
+    $authors = Tools::getValue('authors');
+    $contribution_types = Tools::getValue('contribution_types');
 
-    if (!empty($authors)) {
+    if ($authors && is_array($authors)) {
       foreach ($authors as $key => $id_author) {
-        Db::getInstance()->insert('product_author', [
-          'id_product' => (int)$id_product,
-          'id_author' => (int)$id_author,
-          'contribution_type' => pSQL($contribution_types[$key]),
-        ]);
+        if ($id_author) {
+          $contribution_type = pSQL($contribution_types[$key]);
+          Db::getInstance()->insert('product_author', array(
+            'id_product' => $id_product,
+            'id_author' => (int)$id_author,
+            'contribution_type' => $contribution_type,
+          ));
+        }
       }
     }
   }
