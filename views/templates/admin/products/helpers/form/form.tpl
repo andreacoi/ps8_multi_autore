@@ -1,3 +1,8 @@
+<style>
+img.top-logo {
+    display:none;
+  }
+</style>
 <div class="panel">
     <h3>Autori del libro</h3>
     <div class="form-group">
