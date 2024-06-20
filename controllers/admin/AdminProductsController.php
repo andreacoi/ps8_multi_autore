@@ -58,12 +58,13 @@ class AdminProductsController extends AdminProductsControllerCore
 
   protected function saveProductAuthors()
   {
-    $id_product = (int)Tools::getValue('id_product');
+    /*     $id_product = (int)Tools::getValue('id_product');
     Db::getInstance()->delete('product_author', 'id_product = ' . $id_product);
 
     $authors = Tools::getValue('authors');
     $contribution_types = Tools::getValue('contribution_types');
-
+    var_dump($contribution_types);
+    die;
     if ($authors && is_array($authors)) {
       foreach ($authors as $key => $id_author) {
         if ($id_author) {
@@ -75,6 +76,6 @@ class AdminProductsController extends AdminProductsControllerCore
           ));
         }
       }
-    }
+    } */
   }
 }
