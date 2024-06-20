@@ -42,10 +42,10 @@
                 newAuthor.classList.add('author-item');
                 newAuthor.setAttribute('data-id', authorId);
                 newAuthor.innerHTML = `
-                    <input type="hidden" name="authors[]" value="${authorId}" />
+                    <input type="hidden" name="authors[]" value="`+ authorId + `" />
                     <input type="hidden" name="contribution_types[]" value="author" />
                     <p>
-                        <strong>${authorText}</strong> - 
+                        <strong>`+ authorText +`</strong> - 
                         <select name="contribution_types[]">
                             <option value="author">{l s='Author' d='Modules.AuthorsManager.Admin'}</option>
                             <option value="co-author">{l s='Co-Author' d='Modules.AuthorsManager.Admin'}</option>
