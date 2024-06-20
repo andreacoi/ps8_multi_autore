@@ -9,7 +9,7 @@ class AuthorsManager extends Module
   {
     $this->name = 'authorsmanager';
     $this->tab = 'administration';
-    $this->version = '0.0.2pa';
+    $this->version = '0.0.2.1pa';
     $this->author = 'Andrea Coi';
     $this->need_instance = 0;
 
@@ -45,7 +45,7 @@ class AuthorsManager extends Module
   public function install()
   {
     return parent::install() &&
-      $this->registerHook('displayAdminProductsExtra') &&
+      $this->registerHook('displayAdminProductsMainStepRightColumnBottom') &&
       $this->registerHook('actionProductSave') &&
       $this->installTab();
   }
@@ -55,7 +55,7 @@ class AuthorsManager extends Module
     return parent::uninstall() && $this->uninstallTab();
   }
 
-  public function hookDisplayAdminProductsExtra($params)
+  public function hookDisplayAdminProductsMainStepRightColumnBottom($params)
   {
     $id_product = (int)$params['id_product'];
     $authors = $this->getProductAuthors($id_product);
