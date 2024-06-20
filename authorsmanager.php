@@ -47,6 +47,7 @@ class AuthorsManager extends Module
     return parent::install() &&
       $this->registerHook('displayAdminProductsExtra') &&
       $this->registerHook('actionProductSave') &&
+      $this->registerHook('displayProductAuthors') &&
       $this->installTab();
   }
 
@@ -69,6 +70,17 @@ class AuthorsManager extends Module
     return $this->display(__FILE__, 'views/templates/admin/products/helpers/form/form.tpl');
   }
 
+  public function hookDisplayProductAuthors($params)
+  {
+    $id_product = (int)$params['product']['id_product'];
+    $authors = $this->getProductAuthors($id_product);
+
+    $this->context->smarty->assign([
+      'authors' => $authors,
+    ]);
+
+    return $this->display(__FILE__, 'views/templates/hook/product_authors.tpl');
+  }
 
   public function hookActionProductSave($params)
   {
