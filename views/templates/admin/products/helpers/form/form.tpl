@@ -1,14 +1,14 @@
 <div class="panel">
-    <h3>{l s='Authors' d='Modules.AuthorsManager.Admin'}</h3>
+    <h3>Autori del libro</h3>
     <div class="form-group">
-        <label for="add-author">{l s='Add Author' d='Modules.AuthorsManager.Admin'}</label>
+        <label for="add-author">{l s='Aggiungi autore a questo libro' d='Modules.AuthorsManager.Admin'}</label>
         <select id="add-author" class="form-control">
-            <option value="">{l s='Select Author' d='Modules.AuthorsManager.Admin'}</option>
+            <option value="">{l s='Seleziona uno degli autori presenti' d='Modules.AuthorsManager.Admin'}</option>
             {foreach from=$all_authors item=all_author}
                 <option value="{$all_author.id_author}">{$all_author.first_name} {$all_author.last_name}</option>
             {/foreach}
         </select>
-        <button type="button" class="btn btn-primary" id="add-author-btn">{l s='Add' d='Modules.AuthorsManager.Admin'}</button>
+        <button type="button" class="btn btn-primary" id="add-author-btn">{l s='Aggiungi autore a questo libro' d='Modules.AuthorsManager.Admin'}</button>
     </div>
     <div id="authors-list">
         {foreach from=$authors item=author}
@@ -17,13 +17,13 @@
                 <input type="hidden" name="contribution_types[]" value="{$author.contribution_type}" />
                 <p>
                     <strong>{$author.first_name} {$author.last_name}</strong> - 
-                    <select name="contribution_types[]">
-                        <option value="author" {if $author.contribution_type == 'author'}selected{/if}>{l s='Author' d='Modules.AuthorsManager.Admin'}</option>
-                        <option value="co-author" {if $author.contribution_type == 'co-author'}selected{/if}>{l s='Co-Author' d='Modules.AuthorsManager.Admin'}</option>
-                        <option value="curator" {if $author.contribution_type == 'curator'}selected{/if}>{l s='Curator' d='Modules.AuthorsManager.Admin'}</option>
-                        <option value="editor" {if $author.contribution_type == 'editor'}selected{/if}>{l s='Editor' d='Modules.AuthorsManager.Admin'}</option>
+                    <select class="form-control" name="contribution_types[]">
+                        <option value="author" {if $author.contribution_type == 'author'}selected{/if}>{l s='Autore' d='Modules.AuthorsManager.Admin'}</option>
+                        <option value="co-author" {if $author.contribution_type == 'co-author'}selected{/if}>{l s='Co-Autore' d='Modules.AuthorsManager.Admin'}</option>
+                        <option value="curator" {if $author.contribution_type == 'curator'}selected{/if}>{l s='Curatore' d='Modules.AuthorsManager.Admin'}</option>
+                        <option value="editor" {if $author.contribution_type == 'editor'}selected{/if}>{l s='Editore' d='Modules.AuthorsManager.Admin'}</option>
                     </select>
-                    <button type="button" class="btn btn-danger remove-author">{l s='Remove' d='Modules.AuthorsManager.Admin'}</button>
+                    <button type="button" class="btn btn-danger remove-author">{l s='Rimuovi autore' d='Modules.AuthorsManager.Admin'}</button>
                 </p>
             </div>
         {/foreach}
@@ -46,13 +46,13 @@
                     <input type="hidden" name="contribution_types[]" value="author" />
                     <p>
                         <strong>`+ authorText +`</strong> - 
-                        <select name="contribution_types[]">
-                            <option value="author">{l s='Author' d='Modules.AuthorsManager.Admin'}</option>
-                            <option value="co-author">{l s='Co-Author' d='Modules.AuthorsManager.Admin'}</option>
-                            <option value="curator">{l s='Curator' d='Modules.AuthorsManager.Admin'}</option>
-                            <option value="editor">{l s='Editor' d='Modules.AuthorsManager.Admin'}</option>
+                        <select class="form-control" name="contribution_types[]">
+                            <option value="author">{l s='Autore' d='Modules.AuthorsManager.Admin'}</option>
+                            <option value="co-author">{l s='Co-Autore' d='Modules.AuthorsManager.Admin'}</option>
+                            <option value="curator">{l s='Curatore' d='Modules.AuthorsManager.Admin'}</option>
+                            <option value="editor">{l s='Editore' d='Modules.AuthorsManager.Admin'}</option>
                         </select>
-                        <button type="button" class="btn btn-danger remove-author">{l s='Remove' d='Modules.AuthorsManager.Admin'}</button>
+                        <button type="button" class="btn btn-danger remove-author">{l s='Rimuovi autore' d='Modules.AuthorsManager.Admin'}</button>
                     </p>
                 `;
                 document.getElementById('authors-list').appendChild(newAuthor);
