@@ -36,54 +36,50 @@ img.top-logo {
 </div>
 
 <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('add-author-btn').addEventListener('click', function() {
-            var authorSelect = document.getElementById('add-author');
-            var authorId = authorSelect.value;
-            var authorText = authorSelect.options[authorSelect.selectedIndex].text;
+    
 
-            if (authorId) {
-                var newAuthor = document.createElement('div');
-                newAuthor.classList.add('author-item');
-                newAuthor.setAttribute('data-id', authorId);
-                newAuthor.innerHTML = `
-                    <input type="hidden" name="authors[]" value="`+ authorId + `" />
-                    <input type="hidden" name="contribution_types[]" value="author" />
-                    <p>
-                        <strong>`+ authorText +`</strong> - 
-                        <select class="form-control" name="contribution_types[]">
-                            <option value="author">{l s='Autore' d='Modules.AuthorsManager.Admin'}</option>
-                            <option value="co-author">{l s='Co-Autore' d='Modules.AuthorsManager.Admin'}</option>
-                            <option value="curator">{l s='Curatore' d='Modules.AuthorsManager.Admin'}</option>
-                            <option value="editor">{l s='Editore' d='Modules.AuthorsManager.Admin'}</option>
-                        </select>
-                        <button type="button" class="btn btn-danger remove-author">{l s='Rimuovi autore' d='Modules.AuthorsManager.Admin'}</button>
-                    </p>
-                `;
-                document.getElementById('authors-list').appendChild(newAuthor);
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add-author-btn').addEventListener('click', function() {
+        var authorSelect = document.getElementById('author-select');
+        var id_author = authorSelect.value;
+        var author_name = authorSelect.options[authorSelect.selectedIndex].text;
 
-                // Reset select
-                authorSelect.value = '';
-            }
-        });
+        var contributionTypeSelect = document.getElementById('contribution-type-select');
+        var contribution_type = contributionTypeSelect.value;
+        var contribution_type_text = contributionTypeSelect.options[contributionTypeSelect.selectedIndex].text;
 
-        document.getElementById('authors-list').addEventListener('click', function(event) {
-            if (event.target.classList.contains('remove-author')) {
-                var authorItem = event.target.closest('.author-item');
-                var authorId = authorItem.getAttribute('data-id');
+        if (id_author && contribution_type) {
+            var authorEntry = document.createElement('div');
+            authorEntry.className = 'author-entry';
 
-                // Add hidden input to mark author for removal
-                var removeInput = document.createElement('input');
-                removeInput.type = 'hidden';
-                removeInput.name = 'remove_authors[]';
-                removeInput.value = authorId;
-                document.getElementById('authors-list').appendChild(removeInput);
+            var options = [
+                '<option value="author"' + (contribution_type === 'author' ? ' selected' : '') + '>Author</option>',
+                '<option value="co-author"' + (contribution_type === 'co-author' ? ' selected' : '') + '>Co-Author</option>',
+                '<option value="curator"' + (contribution_type === 'curator' ? ' selected' : '') + '>Curator</option>',
+                '<option value="editor"' + (contribution_type === 'editor' ? ' selected' : '') + '>Editor</option>',
+            ].join('');
 
-                // Remove the author item from the list
-                authorItem.remove();
-            }
-        });
+            authorEntry.innerHTML = `
+                <input type="hidden" name="authors[`+ id_author +`][id_author]" value="`+ id_author +`" />
+                <input type="hidden" name="authors[`+ id_author +`][contribution_type]" value="${contribution_type}" />
+                <span>`+ author_name +` 
+                    <select name="authors[`+ id_author +`][contribution_type]">
+                        `+ options +`
+                    </select>
+                </span>
+                <button type="button" class="remove-author-btn">Remove</button>
+            `;
+
+            document.getElementById('authors-list').appendChild(authorEntry);
+        }
     });
+
+    document.getElementById('authors-list').addEventListener('click', function(event) {
+        if (event.target && event.target.classList.contains('remove-author-btn')) {
+            event.target.closest('.author-entry').remove();
+        }
+    });
+});
 </script>
 
 
