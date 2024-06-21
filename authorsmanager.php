@@ -84,40 +84,23 @@ class AuthorsManager extends Module
 
   public function hookActionProductSave($params)
   {
-    $id_product = (int)$params['id_product'];
-    $authors = Tools::getValue('authors', []);
-    $contribution_types = Tools::getValue('contribution_types', []);
-    $remove_authors = Tools::getValue('remove_authors', []);
+    $id_product = (int)$params['object']->id;
+    $authors = Tools::getValue('authors'); // Supponiamo che 'authors' sia l'array contenente gli autori e i loro tipi di contribuzione
 
-    // Rimozione autori
-    if (!empty($remove_authors)) {
-      foreach ($remove_authors as $id_author) {
-        Db::getInstance()->delete('product_author', 'id_product = ' . (int)$id_product . ' AND id_author = ' . (int)$id_author);
-      }
-    }
+    if (is_array($authors) && !empty($authors)) {
+      // Cancella le associazioni esistenti
+      Db::getInstance()->execute('DELETE FROM ' . _DB_PREFIX_ . 'product_author WHERE id_product = ' . (int)$id_product);
 
-    // Aggiungi o aggiorna autori
-    if (!empty($authors)) {
-      foreach ($authors as $key => $id_author) {
-        $contribution_type = pSQL($contribution_types[$key]);
+      // Inserisci le nuove associazioni
+      foreach ($authors as $author) {
+        $id_author = (int)$author['id_author'];
+        $contribution_type = pSQL($author['contribution_type']); // 'author', 'co-author', 'curator', 'editor'
 
-        $sql = 'SELECT * FROM ' . _DB_PREFIX_ . 'product_author 
-                    WHERE id_product = ' . (int)$id_product . ' 
-                    AND id_author = ' . (int)$id_author;
-
-        $existingRecord = Db::getInstance()->getRow($sql);
-
-        if ($existingRecord) {
-          Db::getInstance()->update('product_author', [
-            'contribution_type' => $contribution_type,
-          ], 'id_product = ' . (int)$id_product . ' AND id_author = ' . (int)$id_author);
-        } else {
-          Db::getInstance()->insert('product_author', [
-            'id_product' => (int)$id_product,
-            'id_author' => (int)$id_author,
-            'contribution_type' => $contribution_type,
-          ]);
-        }
+        Db::getInstance()->insert('product_author', [
+          'id_product' => (int)$id_product,
+          'id_author' => (int)$id_author,
+          'contribution_type' => pSQL($contribution_type),
+        ]);
       }
     }
   }
