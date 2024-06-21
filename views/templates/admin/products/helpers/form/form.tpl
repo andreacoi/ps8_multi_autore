@@ -9,7 +9,7 @@ img.top-logo {
         <label for="author-select">{l s='Select Author' d='Modules.AuthorsManager'}</label>
         <select id="author-select">
             {foreach from=$authors item=author}
-                <option value="{$author.id_author}">{$author.firstname} {$author.lastname}</option>
+                <option value="{$author.id_author}">{$author.first_name} {$author.last_name}</option>
             {/foreach}
         </select>
         
@@ -29,7 +29,7 @@ img.top-logo {
             <div class="author-entry">
                 <input type="hidden" name="authors[{$author.id_author}][id_author]" value="{$author.id_author}" />
                 <input type="hidden" name="authors[{$author.id_author}][contribution_type]" value="{$author.contribution_type}" />
-                <span>{$author.firstname} {$author.lastname} - 
+                <span>{$author.first_name} {$author.last_name} 
                     <select name="authors[{$author.id_author}][contribution_type]">
                         <option value="author" {if $author.contribution_type == 'author'}selected{/if}>{l s='Author' d='Modules.AuthorsManager'}</option>
                         <option value="co-author" {if $author.contribution_type == 'co-author'}selected{/if}>{l s='Co-Author' d='Modules.AuthorsManager'}</option>
