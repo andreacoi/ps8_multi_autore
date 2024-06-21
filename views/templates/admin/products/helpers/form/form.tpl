@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             authorEntry.innerHTML = `
                 <input type="hidden" name="authors[`+ id_author +`][id_author]" value="`+ id_author +`" />
-                <input type="hidden" name="authors[`+ id_author +`][contribution_type]" value="${contribution_type}" />
+                <input type="hidden" name="authors[`+ id_author +`][contribution_type]" value="`+ contribution_type +`" />
                 <span>`+ author_name +` 
                     <select name="authors[`+ id_author +`][contribution_type]">
                         `+ options +`
