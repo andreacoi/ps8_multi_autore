@@ -8,7 +8,7 @@ img.top-logo {
     <div>
         <label for="author-select">{l s='Select Author' d='Modules.AuthorsManager'}</label>
         <select id="author-select">
-            {foreach from=$authors item=author}
+            {foreach from=$all_authors item=author}
                 <option value="{$author.id_author}">{$author.first_name} {$author.last_name}</option>
             {/foreach}
         </select>
@@ -25,7 +25,7 @@ img.top-logo {
     </div>
     
     <div id="authors-list">
-        {foreach from=$current_authors item=author}
+        {foreach from=$authors item=author}
             <div class="author-entry">
                 <input type="hidden" name="authors[{$author.id_author}][id_author]" value="{$author.id_author}" />
                 <input type="hidden" name="authors[{$author.id_author}][contribution_type]" value="{$author.contribution_type}" />
