@@ -84,7 +84,7 @@ class AuthorsManager extends Module
 
   public function hookActionProductSave($params)
   {
-    $id_product = (int)$params['object']->id;
+    $id_product = (int)$params['product']->id;
     $authors = Tools::getValue('authors'); // Supponiamo che 'authors' sia l'array contenente gli autori e i loro tipi di contribuzione
 
     if (is_array($authors) && !empty($authors)) {
