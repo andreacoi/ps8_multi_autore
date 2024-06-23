@@ -48,6 +48,7 @@ class AuthorsManager extends Module
       $this->registerHook('displayAdminProductsExtra') &&
       $this->registerHook('actionProductSave') &&
       $this->registerHook('displayProductAuthors') &&
+      $this->registerHook('moduleRoutes') &&
       $this->installTab();
   }
 
@@ -104,6 +105,33 @@ class AuthorsManager extends Module
       }
     }
   }
+
+  public function hookModuleRoutes($params)
+  {
+    return [
+      'module-authorsmanager-authorslist' => [
+        'controller' => 'authorslist',
+        'rule' => 'autori',
+        'keywords' => [],
+        'params' => [
+          'fc' => 'module',
+          'module' => 'authorsmanager',
+        ],
+      ],
+      'module-authorsmanager-authordetails' => [
+        'controller' => 'authordetails',
+        'rule' => 'autore/{id_author}',
+        'keywords' => [
+          'id_author' => ['regexp' => '[0-9]+', 'param' => 'id_author']
+        ],
+        'params' => [
+          'fc' => 'module',
+          'module' => 'authorsmanager',
+        ],
+      ],
+    ];
+  }
+
   protected function getProductAuthors($id_product)
   {
     if (!$id_product) {
