@@ -18,7 +18,7 @@ Queste sono le due query SQL che servono per generare le tabelle:
 ```
 # Creazione tabella autori
 
-CREATE TABLE `pxl_author` (
+CREATE TABLE `ps_author` (
     `id_author` INT(11) NOT NULL AUTO_INCREMENT,
     `first_name` VARCHAR(255) NOT NULL,
     `last_name` VARCHAR(255) NOT NULL,
@@ -28,12 +28,12 @@ CREATE TABLE `pxl_author` (
 
 # Creazione relazione autore libro
 
-CREATE TABLE `pxl_product_author` (
+CREATE TABLE `ps_product_author` (
     `id_product` INT(10) UNSIGNED NOT NULL,
     `id_author` INT(11) NOT NULL,
     `contribution_type` ENUM('author', 'co-author', 'curator', 'editor') NOT NULL,
     PRIMARY KEY (`id_product`, `id_author`),
     FOREIGN KEY (`id_product`) REFERENCES `ps_product` (`id_product`) ON DELETE CASCADE,
-    FOREIGN KEY (`id_author`) REFERENCES `pxl_author` (`id_author`) ON DELETE CASCADE
+    FOREIGN KEY (`id_author`) REFERENCES `ps_author` (`id_author`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
