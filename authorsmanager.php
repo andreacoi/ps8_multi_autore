@@ -108,7 +108,7 @@ class AuthorsManager extends Module
   // seguo https://devdocs.prestashop-project.org/8/modules/concepts/hooks/list-of-hooks/moduleroutes/
   public function hookModuleRoutes($params)
   {
-    return [
+    /* [
       'module-authorsmanager-authorslist' => [
         'controller' => 'authorslist',
         'rule' => 'autori',
@@ -129,6 +129,28 @@ class AuthorsManager extends Module
           'module' => 'authorsmanager',
         ],
       ],
+    ];
+ */
+    return [
+      'module-authorsmanager-authorslist' => [
+        'rule' => 'autori',
+        'keywords' => [],
+        'controller' => 'authorslist',
+        'params' => [
+          'fc' => 'module',
+          'module' => 'authorsmanager'
+        ]
+      ],
+      'module-authorsmanager-authorsdetails' => [
+        'rule' => 'autore/{id_author}',
+        'keywords' => [],
+        'controller' => 'authordetails',
+        'params' => [
+          'fc' => 'module',
+          'module' => 'authorsmanager'
+        ]
+      ],
+
     ];
   }
 
