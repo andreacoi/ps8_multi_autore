@@ -121,7 +121,12 @@ class AuthorsManager extends Module
       ],
       'module-authorsmanager-authorsdetails' => [
         'rule' => 'autore/{id_author}',
-        'keywords' => [],
+        'keywords' => [
+          'id_author' => [
+            'regexp' => '[0-9]*',
+            'param' => 'id_author'
+          ],
+        ],
         'controller' => 'authordetails',
         'params' => [
           'fc' => 'module',

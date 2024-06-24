@@ -12,9 +12,11 @@ class AuthorsManagerAuthorsListModuleFrontController extends ModuleFrontControll
       'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
     ];
 
+    $base_url = $this->context->link->getBaseLink();
     $this->context->smarty->assign([
       'authors' => $authors,
       'letters' => $letters,
+      'base' => $base_url,
     ]);
 
     $this->setTemplate('module:authorsmanager/views/templates/front/authors_list.tpl');

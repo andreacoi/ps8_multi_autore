@@ -46,7 +46,7 @@
               <ul class="writersList">
                 {foreach from=$authors item=author}
                   {if $author.last_name|substr:0:1 == $letter}
-                    <li><a href="{$link->getModuleLink('authorsmanager', 'authordetails', ['id_author' => $author.id_author])|escape:'html':'UTF-8'}">{$author.last_name}, {$author.first_name}</a></li>
+                    <li><a href="{$base}autore/{$author.id_author}">{$author.last_name}, {$author.first_name}</a></li>
                   {/if}
                 {/foreach}
               </ul>
