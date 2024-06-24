@@ -2,7 +2,7 @@
 
 {block name='page_content'}
     <div class="authors-list">
-        <h1 class = "text-center">Autori</h1>
+        <h1 class = "text-center mb-5">Autori</h1>
         <div class="container writerMenu">
           <a href="#A">A</a>
           <a href="#B">B</a>
