@@ -1,17 +1,15 @@
+{extends file='page.tpl'}
 
-{if $authors}
+{block name='page_content'}
     <div class="authors-list">
         <h1>{l s='Authors' d='Modules.AuthorsManager'}</h1>
-        <ul>
-            {foreach from=$authors item=author}
-                <li>
-                    <a href="{$link->getModuleLink('authorsmanager', 'authordetails', ['id_author' => $author.id_author])}">
-                        {$author.first_name} {$author.last_name}
-                    </a>
-                </li>
-            {/foreach}
-        </ul>
+        {foreach from=$authors item=author}
+            <div class="author">
+                <h2><a href="{$link->getModuleLink('authorsmanager', 'authordetails', ['id_author' => $author.id_author])|escape:'html':'UTF-8'}">
+                    {$author.first_name|escape:'html':'UTF-8'} {$author.last_name|escape:'html':'UTF-8'}
+                </a></h2>
+                <p>{$author.biography|escape:'html':'UTF-8'}</p>
+            </div>
+        {/foreach}
     </div>
-{else}
-    <p>{l s='No authors found.' d='Modules.AuthorsManager'}</p>
-{/if}
+{/block}
