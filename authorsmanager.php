@@ -49,6 +49,7 @@ class AuthorsManager extends Module
       $this->registerHook('actionProductSave') &&
       $this->registerHook('displayProductAuthors') &&
       $this->registerHook('moduleRoutes') &&
+      $this->registerHook('header') &&
       $this->installTab();
   }
 
@@ -108,29 +109,6 @@ class AuthorsManager extends Module
   // seguo https://devdocs.prestashop-project.org/8/modules/concepts/hooks/list-of-hooks/moduleroutes/
   public function hookModuleRoutes($params)
   {
-    /* [
-      'module-authorsmanager-authorslist' => [
-        'controller' => 'authorslist',
-        'rule' => 'autori',
-        'keywords' => [],
-        'params' => [
-          'fc' => 'module',
-          'module' => 'authorsmanager',
-        ],
-      ],
-      'module-authorsmanager-authordetails' => [
-        'controller' => 'authordetails',
-        'rule' => 'autore/{id_author}',
-        'keywords' => [
-          'id_author' => ['regexp' => '[0-9]+', 'param' => 'id_author']
-        ],
-        'params' => [
-          'fc' => 'module',
-          'module' => 'authorsmanager',
-        ],
-      ],
-    ];
- */
     return [
       'module-authorsmanager-authorslist' => [
         'rule' => 'autori',
@@ -152,6 +130,16 @@ class AuthorsManager extends Module
       ],
 
     ];
+  }
+
+  public function hookHeader($params)
+  {
+    // Aggiungi il file CSS personalizzato
+    $this->context->controller->registerStylesheet(
+      'authorsmanager-css',
+      'modules/' . $this->name . '/views/css/authorsmanager.css',
+      ['media' => 'all', 'priority' => 150]
+    );
   }
 
   protected function getProductAuthors($id_product)
