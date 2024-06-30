@@ -33,6 +33,7 @@ class AuthorsManagerAuthorDetailsModuleFrontController extends ModuleFrontContro
           'name' => $product->name,
           'price' => $product->getPrice(true, null, 2),
           'cover_image' => isset($coverImage['bySize']['home_default']['url']) ? $coverImage['bySize']['home_default']['url'] : '', // Verifica se la chiave 'url' esiste prima di accedere ad essa
+          'url' => $product->getLink(),
           // Puoi aggiungere altri dati del prodotto qui, se necessario
         );
         // Assicurati che l'URL dell'immagine di copertina sia valido prima di passarlo al template
