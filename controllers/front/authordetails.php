@@ -1,3 +1,4 @@
+
 <?php
 
 class AuthorsManagerAuthorDetailsModuleFrontController extends ModuleFrontController
@@ -50,17 +51,50 @@ class AuthorsManagerAuthorDetailsModuleFrontController extends ModuleFrontContro
    * @param Product $product
    * @return array
    */
+
+
   protected function getProductData(Product $product)
   {
+    $link = $this->context->link;
+    $cover = Product::getCover($product->id);
+
+    $image = null;
+    if ($cover) {
+      $imageUrl = $link->getImageLink($product->link_rewrite, $product->id . '-' . $cover['id_image'], 'home_default');
+      $image = [
+        'bySize' => [
+          'home_default' => [
+            'url' => $imageUrl,
+            'width' => 250, // esempio di larghezza
+            'height' => 250 // esempio di altezza
+          ],
+          'large' => [
+            'url' => $link->getImageLink($product->link_rewrite, $product->id . '-' . $cover['id_image'], 'large_default')
+          ]
+        ],
+        'legend' => $product->name
+      ];
+    }
+
+    // Otteniamo il prezzo formattato correttamente
+    $price = Tools::displayPrice($product->getPrice(true, null, 2), $this->context->currency);
+
     return [
       'id_product' => $product->id,
       'name' => $product->name,
       'description_short' => $product->description_short,
-      'price' => $product->price,
+      'price' => $price,
       'link_rewrite' => $product->link_rewrite,
       'category' => $product->category,
-      'id_image' => Product::getCover($product->id)['id_image'] ?? null,
-      'url' => $this->context->link->getProductLink($product),
+      'id_image' => $cover ? $cover['id_image'] : null,
+      'url' => $link->getProductLink($product),
+      'cover' => $image,
+      'show_price' => true,
+      'has_discount' => $product->has_discount,
+      'regular_price' => Tools::displayPrice($product->getPriceWithoutReduct(), $this->context->currency),
+      'discount_percentage' => $product->specificPrice['reduction'] * 100 . '%',
+      'discount_amount_to_display' => Tools::displayPrice($product->getPriceWithoutReduct() - $product->getPrice(), $this->context->currency),
+      'discount_type' => $product->specificPrice['reduction_type'],
     ];
   }
 }
