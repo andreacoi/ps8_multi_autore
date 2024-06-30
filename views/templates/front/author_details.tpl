@@ -2,7 +2,7 @@
 {block name='page_content'}
     <div class="author-details">
         <h1 class="text-center">{$author.first_name} {$author.last_name}</h1>
-        <p class="text-center">{$author.bio}</p>
+        <p class="text-center">{$author.biography}</p>
 
         <hr />
 
