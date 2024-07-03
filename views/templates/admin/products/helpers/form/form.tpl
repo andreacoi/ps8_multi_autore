@@ -9,7 +9,7 @@ img.top-logo {
         <label for="author-select">Seleziona autore</label>
         <select class="form-control" id="author-select">
             {foreach from=$all_authors item=author}
-                <option value="{$author.id_author}">{$author.first_name} {$author.last_name}</option>
+                <option value="{$author.id_author}">{$author.last_name}, {$author.first_name}</option>
             {/foreach}
         </select>
         
@@ -29,7 +29,7 @@ img.top-logo {
             <div class="author-entry mt-3">
                 <input type="hidden" name="authors[{$author.id_author}][id_author]" value="{$author.id_author}" />
                 <input type="hidden" name="authors[{$author.id_author}][contribution_type]" value="{$author.contribution_type}" />
-                <span>{$author.first_name} {$author.last_name} 
+                <span>{$author.first_name} {$author.last_name}
                     <select class="form-control" name="authors[{$author.id_author}][contribution_type]">
                         <option value="author" {if $author.contribution_type == 'author'}selected{/if}>Autore</option>
                         <option value="curator" {if $author.contribution_type == 'curator'}selected{/if}>Curatore (old style, a cura di)</option>
