@@ -6,22 +6,21 @@ img.top-logo {
 
 <div id="authors-manager">
     <div>
-        <label for="author-select">{l s='Select Author' d='Modules.AuthorsManager'}</label>
+        <label for="author-select">Seleziona autore</label>
         <select id="author-select">
             {foreach from=$all_authors item=author}
                 <option value="{$author.id_author}">{$author.first_name} {$author.last_name}</option>
             {/foreach}
         </select>
         
-        <label for="contribution-type-select">{l s='Contribution Type' d='Modules.AuthorsManager'}</label>
+        <label for="contribution-type-select">Tipo di contribuzione</label>
         <select id="contribution-type-select">
-            <option value="author">{l s='Author' d='Modules.AuthorsManager'}</option>
-            <option value="co-author">{l s='Co-Author' d='Modules.AuthorsManager'}</option>
-            <option value="curator">{l s='Curator' d='Modules.AuthorsManager'}</option>
-            <option value="editor">{l s='Editor' d='Modules.AuthorsManager'}</option>
+            <option value="author">Autore</option>
+            <option value="curator">Curatore (old style, a cura di)</option>
+            <option value="editor">Editor (nuova versione internazionale)</option>
         </select>
         
-        <button type="button" id="add-author-btn">{l s='Add Author' d='Modules.AuthorsManager'}</button>
+        <button type="button" id="add-author-btn">Aggiungi autore</button>
     </div>
     
     <div id="authors-list">
@@ -31,10 +30,9 @@ img.top-logo {
                 <input type="hidden" name="authors[{$author.id_author}][contribution_type]" value="{$author.contribution_type}" />
                 <span>{$author.first_name} {$author.last_name} 
                     <select name="authors[{$author.id_author}][contribution_type]">
-                        <option value="author" {if $author.contribution_type == 'author'}selected{/if}>{l s='Author' d='Modules.AuthorsManager'}</option>
-                        <option value="co-author" {if $author.contribution_type == 'co-author'}selected{/if}>{l s='Co-Author' d='Modules.AuthorsManager'}</option>
-                        <option value="curator" {if $author.contribution_type == 'curator'}selected{/if}>{l s='Curator' d='Modules.AuthorsManager'}</option>
-                        <option value="editor" {if $author.contribution_type == 'editor'}selected{/if}>{l s='Editor' d='Modules.AuthorsManager'}</option>
+                        <option value="author" {if $author.contribution_type == 'author'}selected{/if}>Autore</option>
+                        <option value="curator" {if $author.contribution_type == 'curator'}selected{/if}>Curatore (old style, a cura di)</option>
+                        <option value="editor" {if $author.contribution_type == 'editor'}selected{/if}>Editor (nuova versione internazionale)</option>
                     </select>
                 </span>
                 <button type="button" class="remove-author-btn">Remove</button>
@@ -62,10 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
             authorEntry.className = 'author-entry';
 
             var options = [
-                '<option value="author"' + (contribution_type === 'author' ? ' selected' : '') + '>Author</option>',
-                '<option value="co-author"' + (contribution_type === 'co-author' ? ' selected' : '') + '>Co-Author</option>',
-                '<option value="curator"' + (contribution_type === 'curator' ? ' selected' : '') + '>Curator</option>',
-                '<option value="editor"' + (contribution_type === 'editor' ? ' selected' : '') + '>Editor</option>',
+                '<option value="author"' + (contribution_type === 'author' ? ' selected' : '') + '>Autore</option>',
+                '<option value="curator"' + (contribution_type === 'curator' ? ' selected' : '') + '>Curatore (old style, a cura di)</option>',
+                '<option value="editor"' + (contribution_type === 'editor' ? ' selected' : '') + '>Editor (nuova versione internazionale)</option>',
             ].join('');
 
             authorEntry.innerHTML = `
