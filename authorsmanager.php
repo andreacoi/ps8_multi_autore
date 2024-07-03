@@ -226,7 +226,7 @@ class AuthorsManager extends Module
 
   protected function getAllAuthors()
   {
-    $sql = 'SELECT * FROM ' . _DB_PREFIX_ . 'author';
+    $sql = 'SELECT * FROM ' . _DB_PREFIX_ . 'author ORDER BY last_name ASC';
     return Db::getInstance()->executeS($sql);
   }
 }
