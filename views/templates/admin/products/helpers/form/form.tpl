@@ -7,35 +7,35 @@ img.top-logo {
 <div id="authors-manager">
     <div>
         <label for="author-select">Seleziona autore</label>
-        <select id="author-select">
+        <select class="form-control" id="author-select">
             {foreach from=$all_authors item=author}
                 <option value="{$author.id_author}">{$author.first_name} {$author.last_name}</option>
             {/foreach}
         </select>
         
         <label for="contribution-type-select">Tipo di contribuzione</label>
-        <select id="contribution-type-select">
+        <select class="form-control" id="contribution-type-select">
             <option value="author">Autore</option>
             <option value="curator">Curatore (old style, a cura di)</option>
             <option value="editor">Editor (nuova versione internazionale)</option>
         </select>
         
-        <button type="button" id="add-author-btn">Aggiungi autore</button>
+        <button type="button btn btn-primary" id="add-author-btn">Aggiungi autore</button>
     </div>
-    
+   <br /><br /> 
     <div id="authors-list">
         {foreach from=$authors item=author}
             <div class="author-entry">
                 <input type="hidden" name="authors[{$author.id_author}][id_author]" value="{$author.id_author}" />
                 <input type="hidden" name="authors[{$author.id_author}][contribution_type]" value="{$author.contribution_type}" />
                 <span>{$author.first_name} {$author.last_name} 
-                    <select name="authors[{$author.id_author}][contribution_type]">
+                    <select class="form-control" name="authors[{$author.id_author}][contribution_type]">
                         <option value="author" {if $author.contribution_type == 'author'}selected{/if}>Autore</option>
                         <option value="curator" {if $author.contribution_type == 'curator'}selected{/if}>Curatore (old style, a cura di)</option>
                         <option value="editor" {if $author.contribution_type == 'editor'}selected{/if}>Editor (nuova versione internazionale)</option>
                     </select>
                 </span>
-                <button type="button" class="remove-author-btn">Remove</button>
+                <button type="btn btn-small btn-danger button" class="remove-author-btn">Remove</button>
             </div>
         {/foreach}
     </div>
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input type="hidden" name="authors[`+ id_author +`][id_author]" value="`+ id_author +`" />
                 <input type="hidden" name="authors[`+ id_author +`][contribution_type]" value="`+ contribution_type +`" />
                 <span>`+ author_name +` 
-                    <select name="authors[`+ id_author +`][contribution_type]">
+                    <select class="form-control" name="authors[`+ id_author +`][contribution_type]">
                         `+ options +`
                     </select>
                 </span>
