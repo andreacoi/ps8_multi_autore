@@ -76,8 +76,43 @@ class AuthorsManager extends Module
   {
     $id_product = (int)$params['product']['id_product'];
     $authors = $this->getProductAuthors($id_product);
+    /* N.B. Gli editor (scritto rigorosamente in inglese) sono la stessa cosa dei curatori.
+    * Questo perché fino a un certo momento storico, nell'editoria italiana si è usata la locuzione "a cura di" per poi essere sostituita da "ed."
+    * C'è però un problema: mentre con la locuzione "a cura di" ci si occupa semplicemente di posporre la locuzione alla fine della lista degli autori, per la nuova dicitura, quella internazionale va indicato anche il plurale, reso come "Edd."
+    * Queste variabili si occupano del conteggio_editor e del conteggio_curator.
+    * Il conteggio_editor conta quanti autori ci sono marcati come editor, quello curator conta quanti autori ci sono come curator.
+    * Questo conteggio è utile se, e solo se, il numero di autori è DIVERSO DA 1.
+    * Questo perché la dicitura riguardante la contribuzione va messa alla fine se gli autori sono più di uno, viceversa se l'autore è unico la dicitura va messa a fianco al nome.
+    * Per fare ciò inizializzero la variabile "contribuzione" che assumerà valore diverso da Null se gli autori sono più di uno.
+    * */
+    if (count($authors) == 1) {
+      switch ($authors[0]['contribution_type']) {
+        case 'editor':
+          $contribuzione = "(ed.)";
+          break;
+        case 'curator':
+          $contribuzione = "(a cura di)";
+          break;
+        default:
+          $contribuzione = "";
+          break;
+      }
+    } else if (count($authors) > 1) {
+      switch ($authors[0]['contribution_type']) {
+        case 'editor':
+          $contribuzione = "(edd.)";
+          break;
+        case 'curator':
+          $contribuzione = "(a cura di)";
+          break;
+        default:
+          $contribuzione = "";
+          break;
+      }
+    }
 
     $this->context->smarty->assign([
+      'contribuzione' => $contribuzione,
       'authors' => $authors,
     ]);
 
@@ -161,6 +196,33 @@ class AuthorsManager extends Module
 
     return Db::getInstance()->executeS($sql);
   }
+
+  protected function isMultipleEditor($id_product)
+  {
+    if (!$id_product) {
+      return false;
+    }
+    $sql = '
+            SELECT pa.id_author, a.first_name, a.last_name, pa.contribution_type
+            FROM ' . _DB_PREFIX_ . 'product_author pa
+            LEFT JOIN ' . _DB_PREFIX_ . 'author a ON pa.id_author = a.id_author
+      WHERE pa.id_product = ' . (int)$id_product . ' AND pa.contribution_type = "editor";';
+    return Db::getInstance()->executeS($sql);
+  }
+
+  protected function isMultipleCurator($id_product)
+  {
+    if (!$id_product) {
+      return false;
+    }
+    $sql = '
+            SELECT pa.id_author, a.first_name, a.last_name, pa.contribution_type
+            FROM ' . _DB_PREFIX_ . 'product_author pa
+            LEFT JOIN ' . _DB_PREFIX_ . 'author a ON pa.id_author = a.id_author
+      WHERE pa.id_product = ' . (int)$id_product . ' AND pa.contribution_type = "curator";';
+    return Db::getInstance()->executeS($sql);
+  }
+
 
   protected function getAllAuthors()
   {
