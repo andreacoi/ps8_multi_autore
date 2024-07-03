@@ -20,12 +20,13 @@ img.top-logo {
             <option value="editor">Editor (nuova versione internazionale)</option>
         </select>
         
-        <button type="button btn btn-primary" id="add-author-btn">Aggiungi autore</button>
+        <button type="button" class="btn-outline-secondary border-white btn mt-3 btn-info" id="add-author-btn">Aggiungi autore</button>
     </div>
-   <br /><br /> 
-    <div id="authors-list">
+   <br /><br />
+   <h4>Lista autori del libro</h4>
+    <div id="authors-list" class="mt-2">
         {foreach from=$authors item=author}
-            <div class="author-entry">
+            <div class="author-entry mt-3">
                 <input type="hidden" name="authors[{$author.id_author}][id_author]" value="{$author.id_author}" />
                 <input type="hidden" name="authors[{$author.id_author}][contribution_type]" value="{$author.contribution_type}" />
                 <span>{$author.first_name} {$author.last_name} 
@@ -35,7 +36,7 @@ img.top-logo {
                         <option value="editor" {if $author.contribution_type == 'editor'}selected{/if}>Editor (nuova versione internazionale)</option>
                     </select>
                 </span>
-                <button type="btn btn-small btn-danger button" class="remove-author-btn">Remove</button>
+                <button type="button" class="remove-author-btn btn-outline-secondary border-white btn-danger btn mt-3">Rimuovi autore</button>
             </div>
         {/foreach}
     </div>
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         `+ options +`
                     </select>
                 </span>
-                <button type="button" class="remove-author-btn">Remove</button>
+                <button type="button" class="remove-author-btn btn-outline-secondary border-white btn-danger btn mt-3">Rimuovi autore</button>
             `;
 
             document.getElementById('authors-list').appendChild(authorEntry);
