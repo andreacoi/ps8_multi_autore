@@ -46,7 +46,7 @@
               <ul class="writersList">
                 {foreach from=$authors item=author}
                   {if $author.last_name|substr:0:1 == $letter}
-                    <li><a href="{$base}autore/{$author.id_author}">{$author.last_name}, {$author.first_name}</a></li>
+                    <li><a href="{$base}autore/{$author.id_author}">{$author.last_name}{if $author.first_name != ""}, {$author.first_name}{/if}</a></li>
                   {/if}
                 {/foreach}
               </ul>
